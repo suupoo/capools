@@ -27,3 +27,6 @@ Temporary Items
 
 # Docker data-storage
 .data
+
+# IDE directry
+.idea
