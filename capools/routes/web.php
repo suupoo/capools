@@ -17,4 +17,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// 管理者のみ
+Route::group([
+    'middleware' => ['auth', \App\ValueObjects\UserRole\UserRole::canOnlyAdministrators()],
+    'prefix' => 'admin',
+    'as' => 'admin.',
+    'namespace' => 'Admin'], function () {
+    Route::get('/', 'HomeController@index')->name('home');
+});
+
+// 全ユーザ共通
+Route::group(['middleware' => ['auth', \App\ValueObjects\UserRole\UserRole::canAllUsers()]], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+});
